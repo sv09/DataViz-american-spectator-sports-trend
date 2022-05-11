@@ -53,10 +53,17 @@ d3.csv("./american_sports.csv")
                 merge_data.push(Object.assign(obj, diff_data.value[idx]));
             })
 
+            // console.log(merge_data)
+
             //adjustment values for displaying elements on svg
             const threshold = 10;
             const adjustment = 20;
             const gap = 50;
+
+            //define color palette for each sport
+            const colorPalette = ['#f67e7d','#eb6841','#4f372d','#edc951','#00a0b0']
+            let sportsName = [];
+            merge_data.forEach(val => sportsName.push(val.sport))
 
             //add a SVG to the <div>
             const svg = d3.select('.svg-container')
@@ -72,6 +79,11 @@ d3.csv("./american_sports.csv")
             //define x-axis on the bottom of the svg and call the scale                    
             const xAxis = d3.axisBottom(xScale)
                             .ticks(width/80);
+
+            //define color scale
+            const colorScale = d3.scaleOrdinal()
+                                .range(colorPalette)
+                                .domain(sportsName);
 
             //call the x-axis on the svg             
             svg.append('g')
@@ -106,19 +118,22 @@ d3.csv("./american_sports.csv")
                 .attr('class', 'line')
                 .attr('d', d => lines(d.liked))
                 .attr('fill', 'none')
-                .attr('stroke', '#EAD220')
+                // .attr('stroke', '#EAD220')
+                .attr('stroke', d => colorScale(d.sport))
                 .attr('stroke-width', '2')
             
             //data for displaying dots on the lines    
             let dot_entry = [];
             const s = data.value;
             s.forEach( entry => {
+                let sport = entry.sport
                 dot = entry.liked.map((val, idx) => {
-                        return [ val, data.date[idx] ]
+                        return [ val, data.date[idx], sport ]
                     })
                 dot_entry.push(dot);
             })
             const dot_data = d3.merge(dot_entry);
+            // console.log(dot_data)
 
             //call the  circle svg to define dots on the lines
             svg.selectAll('.dots')
@@ -128,7 +143,8 @@ d3.csv("./american_sports.csv")
                 .attr('r', '3')
                 .attr('cx', d => xScale(d[1]))
                 .attr('cy', d => yScale(d[0]))
-                .attr('fill', '#EAD220')
+                // .attr('fill', '#EAD220')
+                .attr('fill', d => colorScale(d[2]))
 
             //text svg for labelling each line     
             svg.selectAll('.sport-label')
