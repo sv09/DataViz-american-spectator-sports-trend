@@ -198,7 +198,7 @@ d3.csv("./american_sports.csv")
                 .attr('transform', `translate(0, ${margin.top})`) //${margin.left}
 
             //text svg    
-            const perc_change = '% change'
+            const perc_change = '% change since 2004'
             svg.selectAll('.perc-change-text')
                 .data([data])
                 .join('text')
@@ -206,7 +206,7 @@ d3.csv("./american_sports.csv")
                 .attr('font-family', 'sans-serif')
                 .attr('font-size', 12)
                 .text(perc_change)
-                .attr('transform', `translate(${width-margin.right+gap+threshold+adjustment}, ${margin.top})`)
+                .attr('transform', `translate(${width-margin.right+threshold+adjustment}, ${margin.top})`)
 
                 
                 
