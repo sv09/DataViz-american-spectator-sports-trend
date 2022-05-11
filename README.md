@@ -5,7 +5,7 @@
 <!-- DESCRIPTION/ -->
 
 
-![America's Spectator Sport](USSpectatorSportTrend.png)
+![America's Spectator Sport](USSpectatorSportsTrend.png)
 
 <!-- DESCRIPTION/ -->
 
